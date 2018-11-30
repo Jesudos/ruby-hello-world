@@ -117,7 +117,7 @@ pipeline
                         script{
                         openshift.withCluster() {
                     openshift.withProject() {
-                    openshift.newApp( 'https://github.com/openshift/ruby-hello-world' ).narrow('svc').expose()
+                    openshift.selector('svc',"ruby-hello-world").expose()
                     }
                         }
                         }
