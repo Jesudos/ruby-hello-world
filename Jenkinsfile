@@ -1,9 +1,9 @@
 pipeline
 {
-def templateName = 'ruby-hello-world'
-try{
-    timeout(time: 20, unit: 'MINUTES') {
-        node('nodejs'){
+    agent{
+      label 'maven'
+          }
+            stages{
             stage('preamble'){
                 openshift.withCluster() {
                     openshift.withProject() {
@@ -14,6 +14,7 @@ try{
             stage('cleanup'){
                  openshift.withCluster() {
                     openshift.withProject() {
+                        def templateName = 'ruby-hello-world'
                        openshift.selector("all", [ app : templateName ]).delete() 
                   if (openshift.selector("secrets", templateName).exists()) { 
                     openshift.selector("secrets", templateName).delete()
@@ -92,11 +93,4 @@ try{
             
     
         }
-    }
-}catch (err) {
-   echo "in catch block"
-   echo "Caught: ${err}"
-   currentBuild.result = 'FAILURE'
-   throw err
-}   
 }
