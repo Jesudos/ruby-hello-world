@@ -112,5 +112,16 @@ pipeline
         }
     }
         }
+                stage('expose service'){
+                    steps{
+                        script{
+                        openshift.withCluster() {
+                    openshift.withProject() {
+                    openshift.newApp( 'https://github.com/openshift/ruby-hello-world' ).narrow('svc').expose()
+                    }
+                        }
+                        }
+                    }
+                }
 }
 }
