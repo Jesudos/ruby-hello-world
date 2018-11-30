@@ -5,13 +5,19 @@ pipeline
           }
             stages{
             stage('preamble'){
+                steps{
+                    script{
                 openshift.withCluster() {
                     openshift.withProject() {
                         echo "Using project: ${openshift.project()}"
                     }
                 }
             }
+                }
+            }
             stage('cleanup'){
+                steps{
+                    script{
                  openshift.withCluster() {
                     openshift.withProject() {
                         def templateName = 'ruby-hello-world'
@@ -22,7 +28,11 @@ pipeline
                     }
                 }
             }
+                }
+            }
             stage('Create App'){
+                steps{
+                    script{
                 openshift.withCluster() {
                     openshift.withProject() {
                     def bc = openshift.newApp( 'https://github.com/openshift/ruby-hello-world' ).narrow('bc')
@@ -82,7 +92,11 @@ pipeline
                 }
             }
             }
+                }
+            }
     stage('deploy'){
+        steps{
+            script{
                  openshift.withCluster() {
                     openshift.withProject() {
                    //   def dc = openshift.newApp( 'https://github.com/Jesudos/nodejs-ex.git' ).narrow('dc')
@@ -90,7 +104,7 @@ pipeline
                   }
                     }
                 }
-            
-    
+        }
+    }
         }
 }
