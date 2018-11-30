@@ -99,8 +99,15 @@ pipeline
             script{
                  openshift.withCluster() {
                     openshift.withProject() {
-                   //   def dc = openshift.newApp( 'https://github.com/Jesudos/nodejs-ex.git' ).narrow('dc')
-               // dc.rollout().latest()
+                        steps{
+                            script{
+                         def latestDeploymentVersion = openshift.selector('dc',"${APP_NAME}").object().status.latestVersion
+      def rc = openshift.selector('rc', "${APP_NAME}-${latestDeploymentVersion}")
+      rc.untilEach(1){
+          def rcMap = it.object()
+          return (rcMap.status.replicas.equals(rcMap.status.readyReplicas))
+                            }
+                        }
                   }
                     }
                 }
