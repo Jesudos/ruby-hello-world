@@ -99,14 +99,10 @@ pipeline
             script{
                  openshift.withCluster() {
                     openshift.withProject() {
-                        
-                         def latestDeploymentVersion = openshift.selector('dc',"ruby-hello-world").object().status.latestVersion
-      def rc = openshift.selector('rc', "'ruby-hello-world'-${latestDeploymentVersion}")
-      rc.untilEach(1){
-          def rcMap = it.object()
-          return (rcMap.status.replicas.equals(rcMap.status.readyReplicas))
-                        
-                  }
+                        def dc = openshift.selector("dc", "ruby-hello-world")
+                            echo "Calling deployment rollout"
+                            dc.rollout().status()
+                          }
                     }
                 }
         }
@@ -117,8 +113,8 @@ pipeline
                         script{
                         openshift.withCluster() {
                     openshift.withProject() {
-                        echo "-------Exposing Service-------"
-                    openshift.selector('svc','ruby-hello-world').expose()
+                       echo "Calling expose service."
+                            openshift.selector('svc', "ruby-hello-world").expose()
                     }
                         }
                         }
