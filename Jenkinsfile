@@ -1,7 +1,7 @@
 pipeline
 {
     agent{
-      label 'maven'
+      label 'node'
           }
             stages{
             stage('preamble'){
