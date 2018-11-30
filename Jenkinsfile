@@ -99,15 +99,13 @@ pipeline
             script{
                  openshift.withCluster() {
                     openshift.withProject() {
-                        steps{
-                            script{
+                        
                          def latestDeploymentVersion = openshift.selector('dc',"${APP_NAME}").object().status.latestVersion
       def rc = openshift.selector('rc', "${APP_NAME}-${latestDeploymentVersion}")
       rc.untilEach(1){
           def rcMap = it.object()
           return (rcMap.status.replicas.equals(rcMap.status.readyReplicas))
-                            }
-                        }
+                        
                   }
                     }
                 }
