@@ -114,7 +114,9 @@ pipeline
                         openshift.withCluster() {
                     openshift.withProject() {
                        echo "Calling expose service."
-                            openshift.selector('svc', "ruby-hello-world").expose()
+                         def svc = openshift.selector('svc', "ruby-hello-world")
+                        svc.expose()
+                        echo "Service exposed"
                     }
                         }
                         }
