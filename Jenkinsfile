@@ -117,7 +117,8 @@ pipeline
                         script{
                         openshift.withCluster() {
                     openshift.withProject() {
-                    openshift.selector('svc',"ruby-hello-world").expose()
+                        echo "-------Exposing Service-------"
+                    openshift.selector('svc','ruby-hello-world').expose()
                     }
                         }
                         }
