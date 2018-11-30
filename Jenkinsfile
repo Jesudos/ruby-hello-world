@@ -107,7 +107,7 @@ pipeline
                 }
         }
     }
-        }
+        
                 stage('expose service'){
                     steps{
                         script{
