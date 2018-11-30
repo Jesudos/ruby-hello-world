@@ -100,8 +100,8 @@ pipeline
                  openshift.withCluster() {
                     openshift.withProject() {
                         
-                         def latestDeploymentVersion = openshift.selector('dc',"${APP_NAME}").object().status.latestVersion
-      def rc = openshift.selector('rc', "${APP_NAME}-${latestDeploymentVersion}")
+                         def latestDeploymentVersion = openshift.selector('dc',"ruby-hello-world").object().status.latestVersion
+      def rc = openshift.selector('rc', "'ruby-hello-world'-${latestDeploymentVersion}")
       rc.untilEach(1){
           def rcMap = it.object()
           return (rcMap.status.replicas.equals(rcMap.status.readyReplicas))
